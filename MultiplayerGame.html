@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Juego</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  
+  <!-- <button id="btnlogin">login</button>
+  <button id="btnlogout">logout</button> -->
+
+  <!-- Modal -->
+
+  <!-- <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Juego en pausa</h4>
+        </div>
+        <div class="modal-body">
+          <p>Un jugador puso el juego en pausa</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <button id="rtn-btn">
+    <img src="back-button-svgrepo-com.svg" alt="">
+  </button>
+  <div class="game-container" id="canvas">
+    <div id="modal" class="modal hideElement">
+      <div id="modalCreateRoom" class="contenedor">
+        <label>
+          Crear Sala de juego
+          <input type="text" id="inp_room_name">
+          <button class="btn btn-primary btn-lg btn-block" id="btn-crateRoom">Crear</button>
+        </label>
+        <label>
+          Unirse a Sala
+          <input type="text" id="inp_room_join">
+          <button class="btn btn-primary btn-lg btn-block" id="btn-joinRoom">Unirse</button>
+        </label>
+      </div>
+    </div>
+    <button id="pause-btn" type="button" class="btn" data-toggle="modal" data-target="#myModal">
+      <img src="pause_icon.svg" alt="">
+    </button>
+  </div>
+  <script src="return-btn.js"></script>
+  <script type="module" src="games/level_multiplayer.js">
+  </script>
+</body>
+</html>

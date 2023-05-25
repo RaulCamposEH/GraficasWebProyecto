@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuraciones</title>
+
+  <style>
+    #rtn-btn {
+      position: absolute;
+      top: 0;
+      height: 5em;
+      width: 5em;
+      border-style: none;
+      background-color: inherit;
+    }
+
+    #rtn-btn img {
+      height: 3em;
+      width: 3em;
+    }
+
+    body {
+      background-color: rgb(55, 54, 60);
+    }
+
+    .configuracion-container {
+      background-color: rgb(128, 0, 111);
+      display: flex;
+      flex-direction: column;
+      padding: 1em;
+      gap: 1em;
+      height: 80vh;
+      width: 80vw;
+      margin: 5em auto;
+      border-radius: 0.5em;
+    }
+
+    .configuracion-container #option-musica-square,
+    .configuracion-container #option-efectos-square {
+      width: 2em;
+      height: 2em;
+      border-radius: 0.5em;
+      background-color: aquamarine;
+      margin: auto 0;
+    }
+
+    .configuracion-container>div {
+      margin: 1em auto;
+      width: 30em;
+      display: flex;
+      flex-direction: row;
+      gap: 5em;
+    }
+
+    .configuracion-container>div>button {
+      background-color: rgb(208, 130, 172);
+      height: 4em;
+      width: 20em;
+      border-style: none;
+      border-radius: 0.5em;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="rtn-btn">
+    <img src="back-button-svgrepo-com.svg" alt="">
+  </button>
+  <div class="configuracion-container">
+    <div>
+      <button class="btn btn-outline-dark">Musica</button>
+      <div id="option-musica-square"></div>
+    </div>
+    <div>
+      <button class="btn btn-outline-dark">Efectos</button>
+      <div id="option-efectos-square"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="return-btn.js"></script>
+</body>
+
+</html>

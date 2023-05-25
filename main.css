@@ -1,0 +1,110 @@
+#rtn-btn {
+  position: absolute;
+  top: 0;
+  height: 5em;
+  width: 5em;
+  border-style: none;
+  background-color: inherit;
+}
+
+#rtn-btn img {
+  height: 3em;
+  width: 3em;
+}
+
+#pause-btn {
+  position: relative;
+  z-index: 10;
+  border-style: none;
+  background-color: inherit;
+}
+
+#pause-btn img {
+  height: 3em;
+  width: 3em;
+}
+
+body {
+  background-color: rgb(55, 54, 60);
+}
+
+.game-container {
+  /* background-color: rgb(128, 0, 111); */
+  display: flex;
+  flex-direction: row;
+  /* padding: ; */
+  gap: 1em;
+  height: 80vh;
+  width: 80vw;
+  margin: 5em auto;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+}
+
+canvas {
+  position: relative;
+  z-index: 1;
+}
+
+.modal{
+  position: fixed;
+  
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedor{
+  height: 50vh;
+  width: 50vw;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5em;
+  border-radius: 1em;
+}
+
+.contenedor>Label, .menuoption{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  width: 50%;
+  padding: 1em;
+}
+
+.contenedor input{
+  width: 100%;
+  border-radius: 0.5em;
+}
+
+.hideElement{
+  display: none;
+  pointer-events: none;
+}
+
+.game-ui-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  z-index: 2;
+  height: fit-content;
+}
+
+.timer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  height: fit-content;
+  gap: 1em;
+  color: aliceblue;
+}

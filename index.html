@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba</title>
+  <style>
+    
+    body{
+      background-color: rgb(55, 54, 60);
+    }
+
+    .menu-container {
+      background-color: rgb(128, 0, 111);
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: end;
+      padding: 1em;
+      gap: 1em;
+      height: 80vh;
+      width: 80vw;
+      margin: 5em auto;
+      border-radius: 0.5em;
+    }
+
+    .menu-button {
+      background-color: rgb(208, 130, 172);
+      height: 5em;
+      width: 20em;
+      border-style: none;
+      border-radius: 0.5em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu-container">
+    <button onclick="handlePlayWindowRedir()" class="menu-button btn btn-outline-dark">Jugar</button>
+    <button onclick="handleMultiplayerWindowRedir()" class="menu-button btn btn-outline-dark">Multijugador</button>
+    <button onclick="handleConfigWindowRedir()" class="menu-button btn btn-outline-dark">Configuraciones</button>
+    <button onclick="handleScoreWindowRedir()" class="menu-button btn btn-outline-dark">Puntuaciones</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+  <script>
+    const handlePlayWindowRedir = () => {
+      window.location.href = "/Game.html"
+    }
+
+    const handleMultiplayerWindowRedir = () => {
+      window.location.href = "/MultiplayerGame.html"
+    }
+
+    const handleConfigWindowRedir = () => {
+      window.location.href = "/Config.html"
+    }
+
+    const handleScoreWindowRedir = () => {
+      window.location.href = "/Puntuaciones.html"
+    }
+  </script>
+
+</body>
+</html>

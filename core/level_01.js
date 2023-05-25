@@ -84,6 +84,45 @@ let vel = 3
 let Round_index = 0
 let TargetRound_index = 0
 
+//Añadir Musica Background
+//Crea un AudioListener y lo agregas a la camara
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+//Creas un cargador de Audio de todos los sonidos
+const audioLoader = new THREE.AudioLoader();
+
+//Creas, cargas y reproduces un sonido de fondo
+const backgroundSound = new THREE.Audio(listener);
+//Cargar Sonido de Disparo
+const ShootGun = new THREE.Audio(listener);
+//Cargar Sonido de Disparo Exitoso
+const ObjectColl = new THREE.Audio(listener);
+
+//Cargas el Musica de Fondo
+audioLoader.load('../assets/Music/Loonboon.mp3', function(buffer){
+  backgroundSound.setBuffer(buffer);
+  backgroundSound.setLoop(true);
+  backgroundSound.setVolume(0.5);
+  backgroundSound.play();
+
+});
+
+//Cargas el sonido de Disparo
+audioLoader.load('../assets/Sounds/Disparo.mp3', function(buffer){
+  ShootGun.setBuffer(buffer);
+  ShootGun.setLoop(false);
+  ShootGun.setVolume(0.5);
+});
+
+//Cargas el sonido de Disparo Exitoso
+audioLoader.load('../assets/Sounds/Object_Shoot.mp3', function(buffer){
+  ObjectColl.setBuffer(buffer);
+  ObjectColl.setLoop(false);
+  ObjectColl.setVolume(0.5);
+});
+
+
 document.addEventListener('keydown', (event) => {
 
   console.log(event)
@@ -107,6 +146,16 @@ container.addEventListener('mousedown', () => {
 document.addEventListener('mouseup', () => {
   const actualPlayer = localuser
   if (document.pointerLockElement !== null) {
+    if(ShootGun.isPlaying){
+      ShootGun.stop();
+      ShootGun.play();
+    }
+    else{
+
+      ShootGun.play();
+    }
+   
+
     log(Players)
     const Player = Players.filter(player => player.player == actualPlayer)[0]
     log(Player)
@@ -431,6 +480,19 @@ function targetColisions() {
           const colisionResult = target.bb.intersectsSphere(bullet.collider)
           if (colisionResult && target.seted) {
             staticTargets[index].startAnimDown = true
+
+            if(ObjectColl.isPlaying){
+              ObjectColl.stop();
+              ObjectColl.play();
+            }
+            else{
+        
+              ObjectColl.play();
+            }
+
+
+            //ObjectColl.play();
+
             playerBullets.scorePlayer()
           }
         })
@@ -446,6 +508,16 @@ function targetColisions() {
             const colisionResult = target.bb.intersectsSphere(bullet.collider)
             if (colisionResult && target.seted) {
               group[index].startAnimDown = true
+
+              if(ObjectColl.isPlaying){
+                ObjectColl.stop();
+                ObjectColl.play();
+              }
+              else{
+          
+                ObjectColl.play();
+              }
+
               if (group[index].seted) playerBullets.scorePlayer()
             }
           })
@@ -497,6 +569,7 @@ document.getElementById("btn-start-hard").addEventListener("click", () => {
 document.getElementById("btn-restart").addEventListener("click", () => {
   window.location.reload()
 })
+
 
 loader.load('Scene01.glb', async (gltf) => {
 

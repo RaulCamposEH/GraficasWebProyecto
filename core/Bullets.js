@@ -37,9 +37,11 @@ class Bullets {
 
   }
 
+  
 
   shoot({ playerCollider, playerDirection, playerVelocity, mouseTime }) {
     const bullet = this.bullets[this.bulletIndex]
+
     // camera.getWorldDirection(playerDirection);
     bullet.collider.center.copy(playerCollider.end).addScaledVector(playerDirection, playerCollider.radius * 1.5);
     const impulse = 15 + 30 * (1 - Math.exp((mouseTime - performance.now()) * 0.001));

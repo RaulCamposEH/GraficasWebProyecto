@@ -54,12 +54,18 @@
         </label>
       </div>
     </div>
-    <button id="pause-btn" type="button" class="btn" data-toggle="modal" data-target="#myModal">
-      <img src="pause_icon.svg" alt="">
-    </button>
+    <div class="game-ui-item">
+      <button id="pause-btn">
+        <img src="pause_icon.svg" alt="">
+      </button>
+      <div class="timer">
+        <h4>tiempo</h4>
+        <p id="levelTime">00:00</p>
+      </div>
+    </div>
   </div>
   <script src="return-btn.js"></script>
-  <script type="module" src="games/level_multiplayer.js">
+  <script type="module" src="core/level_multiplayer.js">
   </script>
 </body>
 </html>

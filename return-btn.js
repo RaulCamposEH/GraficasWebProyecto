@@ -1,7 +1,7 @@
 const return_button = document.getElementById("rtn-btn")
 
 const handle_return_btn = () => {
-  history.back()
+  window.location.href = "index.html"
 }
 
 return_button.addEventListener("click", handle_return_btn)

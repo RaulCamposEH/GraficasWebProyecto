@@ -16,6 +16,39 @@ import { writePlayerScore } from './FireBaseSetup.js';
 // import { login, writeUserData, createNewGame, joinGame } from './FireBaseSetup.js';
 // import { players_data, game_data } from './FireBaseSetup.js';
 
+window.fbAsyncInit = function() {
+  FB.init({
+    appId            : '209813934736950',
+    autoLogAppEvents : true,
+    xfbml            : true,
+    version          : 'v17.0'
+  });
+
+
+  function publicar(score, jugador, modo){
+        FB.api(
+        "/101423766308296/feed",
+        "POST",
+        {
+          message:'El ' + jugador + ' ha obtenido una puntuacion de: ' + score + ' en el modo ' + modo,
+          access_token: 
+          "EAACZB0x0MhjYBACsWIsbKjvrr7gIS1EomdeyUiy1MJ9tGmBYS0o4vQjWtUCQEyB6CTwdhOV77zAyXJN7KIDeQZBwjBuZBGiZBoVhGYEVfJsbqKZCkQaAVHTqvIw1uS6pXUZBYR2B5bud0I7UCymAdBj23VNSNAcbqKXLbgasfIXf9kaHfdsLIlSlDRVzbncvAoNA2jKfS4v47nft179DpP"
+
+        },
+        function(response){
+          if(response && !response.error){
+            console.log(response);
+          }
+          else{
+            console.log("error", response.error);
+
+          }
+        }
+      );
+  }
+ 
+};
+
 const log = console.log
 const clock = new THREE.Clock();
 let game_over = false;

@@ -1,5 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"
+import { 
+  getDatabase,
+  ref, 
+  onValue, 
+  set, 
+  update, 
+  get
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"
 import {
   getAuth,
   signInWithPopup,
@@ -22,20 +29,10 @@ const app = initializeApp(firebaseConfig)
 
 const db = getDatabase(app)
 
-const players = ref(db, 'Jugadores')
-const game = ref(db, 'Game')
-
 let players_data;
 let game_data;
+let scores_data;
 
-// onValue(players, (snapshot) => {
-//   players_data = snapshot.val();
-// });
-
-// onValue(game, (snapshot) => {
-//   game_data = snapshot.val();
-//   console.log(game_data)
-// });
 
 function createNewGame(roomName, playerHost){
   const player_data = {
@@ -44,11 +41,6 @@ function createNewGame(roomName, playerHost){
   if(!game_data){
     onValue(ref(db, `Game/${roomName}/players`), (snapshot) => {
       game_data = snapshot.val();
-      // log(game_data)
-      // Object.entries(game_data).forEach(([key, value]) => {
-      //   log(key)
-      //   log(value)
-      // })
     });
   }
   set(ref(db, `Game/${roomName}/players/${playerHost}`,), {
@@ -71,18 +63,16 @@ function joinGame(roomName, playerJoin){
   })
 }
 
-// function writeUserData(userId, Positions) {
-//   set(ref(db, `Jugadores/${userId}`), {
-//     x: Positions.x,
-//     y: Positions.y,
-//     z: Positions.z
-//   });
-// }
-
 function writeUserData(userId, room, data) {
   update(ref(db, `Game/${room}/players/${userId}`), {
     ...data
   });
+}
+
+function writePlayerScore({username, score, mode}){
+  set(ref(db, `Scores/${mode}/${username}`), {
+    score: score
+  })
 }
 
 const provider = new GoogleAuthProvider();
@@ -113,4 +103,20 @@ async function login(onLoginDo) {
   // return localuser
 }
 
-export { players_data, game_data, writeUserData, login, createNewGame, joinGame};
+async function getScores(onGetValue){
+  const res = await get(ref(db,'Scores'))
+  const value = res.val()
+  console.log(value)
+  onGetValue(value)
+}
+
+export { 
+  players_data, 
+  game_data, 
+  writeUserData, 
+  writePlayerScore, 
+  login, 
+  createNewGame, 
+  joinGame,
+  getScores
+};

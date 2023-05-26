@@ -1,4 +1,5 @@
 import * as THREE from '../three/three.module.js';
+
 class Bullets {
   #geometry
   #material
@@ -16,6 +17,8 @@ class Bullets {
     this.#material = material;
 
     this.player = player
+    this.playerScore = 0
+    this.playerBonus = false
     this.bullets = [];
     this.bulletIndex = 0;
 
@@ -85,8 +88,10 @@ class Bullets {
 
   }
 
-  scorePlayer() {
-    console.log(`player: ${this.player} scored!!!!!!`)
+  scorePlayer(onScore) {
+    this.playerScore += 10
+    console.log(`player ${this.player} score: ${this.playerScore}`)
+    onScore(this.playerScore)
   }
 
 }

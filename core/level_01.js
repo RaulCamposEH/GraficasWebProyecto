@@ -154,7 +154,7 @@ audioLoader.load('../assets/Sounds/Object_Shoot.mp3', function(buffer){
 
 document.addEventListener('keydown', (event) => {
 
-  console.log(event)
+  // console.log(event)
   keyStates[event.code] = true;
 
 });
@@ -180,38 +180,19 @@ document.addEventListener('mouseup', (event) => {
       ShootGun.play();
     }
     else{
-
       ShootGun.play();
     }
-   
-
-    log(Players)
     const Player = Players.filter(player => player.player == actualPlayer)[0]
-    log(Player)
     camera.getWorldDirection(playerDirection);
     Player.shoot({ playerCollider, playerDirection, playerVelocity, mouseTime })
-
-    // var mouse = new THREE.Vector2();
-    // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    // var raycaster = new THREE.Raycaster();
-    // raycaster.setFromCamera(mouse, camera);
-
-    // var intersects = raycaster.intersectObjects([collisionBox]);
-    // if (intersects.length > 0) {
-    //   // billboard.userData.onClick();
-    // }
   }
 });
 
 document.body.addEventListener('mousemove', (event) => {
-  // if (!localuser) return
   if (document.pointerLockElement === document.body) {
     camera.rotation.y -= event.movementX / 500;
     camera.rotation.x -= event.movementY / 500;
   }
-
 });
 
 
@@ -227,7 +208,7 @@ loader.load('spawn_points_lvl1.glb', (gltf) => {
     if (ismovable) movable_spawn_positions.push(el)
     else static_spawn_positions.push(el)
   })
-  console.log(static_spawn_positions)
+  // console.log(static_spawn_positions)
 })
 
 let staticTargets = [];
@@ -270,15 +251,15 @@ loader.load('target.glb', (gltf) => {
       movableTargets.push(groupTargets)
     }
   })
-  console.log(staticTargets)
-  console.log(movableTargets)
+  // console.log(staticTargets)
+  // console.log(movableTargets)
 })
 
 let carabine
 loader.load("carabine.glb", function (gltf) {
   carabine = gltf.scene.children[0].clone()
   carabine.scale.set(0.03, 0.03, 0.03)
-  log(carabine.quaternion)
+  // log(carabine.quaternion)
 })
 
 window.addEventListener('resize', onWindowResize);
@@ -359,21 +340,6 @@ function updatePlayer(deltaTime) {
   scene.getObjectByName(localuser).position.setFromMatrixPosition(objectMatrix);
   scene.getObjectByName(localuser).quaternion.setFromRotationMatrix(rotMtx);
 
-  // if (game_data) {
-  // const tempQuat = scene.getObjectByName(localuser).quaternion
-  // const tempPosition = scene.getObjectByName(localuser).position
-  // // writeUserData(localuser, localroom, {
-  // //   x: tempPosition.x,
-  // //   y: camera.position.y,
-  // //   z: tempPosition.z,
-  // //   rotArray: [
-  // //     tempQuat.x,
-  // //     tempQuat.y,
-  // //     tempQuat.z,
-  // //     tempQuat.w,
-  // //   ]
-  // // })
-  // }
 }
 
 function getForwardVector() {
@@ -512,6 +478,10 @@ function updateMovableTargets(deltaTime) {
   })
 }
 
+function onScore(score){
+  document.getElementById("levelScore").innerText = score 
+}
+
 function targetColisions() {
   staticTargets.forEach((target, index) => {
     if (!target.startAnimDown) {
@@ -529,11 +499,8 @@ function targetColisions() {
         
               ObjectColl.play();
             }
-
-
             //ObjectColl.play();
-
-            playerBullets.scorePlayer()
+            playerBullets.scorePlayer(onScore)
           }
         })
       })
@@ -558,7 +525,7 @@ function targetColisions() {
                 ObjectColl.play();
               }
 
-              if (group[index].seted) playerBullets.scorePlayer()
+              if (group[index].seted) playerBullets.scorePlayer(onScore)
             }
           })
         })
@@ -587,7 +554,7 @@ function updateTimers(deltaTime) {
 }
 
 document.getElementById("btn-start-easy").addEventListener("click", () => {
-  levelTimer = new Temporizador(40);
+  levelTimer = new Temporizador(30);
   setupTargetTimer = new Temporizador(3);
   startRoundTimer = new Temporizador(3);
   nextTargetTimer = new Temporizador(0.5);

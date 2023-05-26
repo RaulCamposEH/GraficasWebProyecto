@@ -35,12 +35,8 @@ class Bullets {
         collider: new THREE.Sphere(new THREE.Vector3(0, - 100, 0), this.#BULLET_RADIUS),
         velocity: new THREE.Vector3()
       });
-
     }
-
   }
-
-  
 
   shoot({ playerCollider, playerDirection, playerVelocity, mouseTime }) {
     const bullet = this.bullets[this.bulletIndex]
@@ -89,7 +85,7 @@ class Bullets {
   }
 
   scorePlayer(onScore) {
-    this.playerScore += 10
+    this.playerScore += this.playerBonus ? 20 : 10
     console.log(`player ${this.player} score: ${this.playerScore}`)
     onScore(this.playerScore)
   }

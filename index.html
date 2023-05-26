@@ -40,8 +40,8 @@
 
 <body>
 
-  <audio autoplay loop id="myAudio">
-    <source id="myAudio" src="./assets/Music/Trance009.mp3" type="audio/mpeg">
+  <audio autoplay="autoplay" controls id="myAudio">
+    <source src="./assets/Music/Trance009.mp3" type="audio/mpeg">
   </audio>
 
   <div class="menu-container">
@@ -72,10 +72,12 @@
       window.location.href = "/Puntuaciones.html"
     }
 
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", async function(){
       document.getElementById("myAudio").volume = 0.1;
-
+      // document.getElementById("myAudio").load();
+      // await document.getElementById("myAudio").play();
     });
+
   </script>
 
 </body>

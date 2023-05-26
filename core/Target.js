@@ -21,7 +21,7 @@ class Target {
     material.opacity = 0.2
     this.debugemesh = new THREE.Mesh(box, material);
     this.debugemesh.position.set(this.mesh.position.x, this.mesh.position.y + 1.05, this.mesh.position.z)
-    this.debugemesh.visible = true
+    this.debugemesh.visible = false
     this.group.add(this.debugemesh)
     // group.add(debugcube)
 

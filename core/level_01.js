@@ -11,6 +11,7 @@ import Target from './Target.js'
 import MovableTarget from './MovableTarget.js'
 import Temporizador from './Temporizador.js'
 import createBillboard from './Billboards.js';
+import { writePlayerScore } from './FireBaseSetup.js';
 
 // import { login, writeUserData, createNewGame, joinGame } from './FireBaseSetup.js';
 // import { players_data, game_data } from './FireBaseSetup.js';
@@ -555,7 +556,7 @@ function updateTimers(deltaTime) {
 
 document.getElementById("btn-start-easy").addEventListener("click", () => {
   levelTimer = new Temporizador(30);
-  setupTargetTimer = new Temporizador(3);
+  setupTargetTimer = new Temporizador(1.5);
   startRoundTimer = new Temporizador(3);
   nextTargetTimer = new Temporizador(0.5);
   levelTimer.start()
@@ -579,6 +580,17 @@ document.getElementById("btn-restart").addEventListener("click", () => {
   window.location.reload()
 })
 
+document.getElementById("btn-send").addEventListener("click", () => {
+  const name = document.getElementById("nameScore").value
+  const score = Players[0].playerScore
+  const mode = Easy ? "facil" : "dificil"
+  writePlayerScore({
+    username: name,
+    score: score,
+    mode: mode
+  })
+  setTimeout(() => window.location.reload(), 1000)
+})
 
 loader.load('Scene01.glb', async (gltf) => {
 
@@ -656,6 +668,7 @@ function animate() {
   if (levelTimer.timeEnded) {
     if (!game_over) {
       game_over = true;
+      document.getElementById("gameOverScore").innerText = Players[0].playerScore
       document.getElementById("modalGameOver").classList.toggle("hideElement")
       if (document.pointerLockElement === document.body) {
         document.exitPointerLock()

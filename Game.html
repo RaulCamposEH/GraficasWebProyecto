@@ -38,6 +38,7 @@
   <button id="rtn-btn">
     <img src="back-button-svgrepo-com.svg" alt="">
   </button>
+
   <div class="game-container" id="canvas">
 
     <div id="modal" class="modal">
@@ -67,17 +68,22 @@
         </div>
       </div>
     </div>
-    
+
     <div class="game-ui-item">
-      <button id="pause-btn">
-        <img src="pause_icon.svg" alt="">
-      </button>
-      <div class="timer">
-        <h4>tiempo</h4>
-        <p id="levelTime">00:00</p>
+      <div>
+        <button id="pause-btn">
+          <img src="pause_icon.svg" alt="">
+        </button>
+        <div class="timer">
+          <h4>tiempo</h4>
+          <p id="levelTime">00:00</p>
+        </div>
+      </div>
+      <div class="score">
+        <h4>Puntuacion</h1>
+          <p id="levelScore">0</p>
       </div>
     </div>
-    
   </div>
   <script src="return-btn.js"></script>
   <script type="module" src="core/level_01.js">

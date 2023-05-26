@@ -91,10 +91,23 @@ canvas {
 
 .game-ui-item{
   display: flex;
+  width: 80%;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-end;
-  position: absolute;
+  position: fixed;
+  z-index: 2;
+  height: fit-content;
+  padding: 1em;
+}
+
+.game-ui-item>div:nth-child(1){
+  display: flex;
+  width: 20%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  /* position: absolute; */
   z-index: 2;
   height: fit-content;
 }
@@ -103,6 +116,17 @@ canvas {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: flex-end;
+  height: fit-content;
+  gap: 1em;
+  color: aliceblue;
+}
+
+.score{
+  display: flex;
+  width: 80%;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: flex-end;
   height: fit-content;
   gap: 1em;

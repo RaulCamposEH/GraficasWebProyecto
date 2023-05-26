@@ -10,6 +10,7 @@ import Bullets from './Bullets.js'
 import Target from './Target.js'
 import MovableTarget from './MovableTarget.js'
 import Temporizador from './Temporizador.js'
+import createBillboard from './Billboards.js';
 
 // import { login, writeUserData, createNewGame, joinGame } from './FireBaseSetup.js';
 // import { players_data, game_data } from './FireBaseSetup.js';
@@ -24,10 +25,36 @@ scene.fog = new THREE.Fog(0x88ccee, 0, 50);
 
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.rotation.order = 'YXZ';
+camera.lookAt(-1,0,0)
 
 const fillLight1 = new THREE.HemisphereLight(0x8dc1de, 0x00668d, 0.5);
 fillLight1.position.set(2, 1, 1);
 scene.add(fillLight1);
+
+const addBillToScene = (obj) => scene.add(obj, obj.userData.collisionBox)
+
+const bill1 = createBillboard({
+  path: "../assets/billboards/clock1.png",
+  width: 1,
+  height: 1,
+  position: new THREE.Vector3(-5, 1, 10),
+  onCreate: addBillToScene
+})
+const bill2 = createBillboard({
+  path: "../assets/billboards/clock2.png",
+  width: 1,
+  height: 1,
+  position: new THREE.Vector3(-5, 1, 8),
+  onCreate: addBillToScene
+})
+const bill3 = createBillboard({
+  path: "../assets/billboards/clock3.png",
+  width: 1,
+  height: 1,
+  position: new THREE.Vector3(-5, 1, 6),
+  onCreate: addBillToScene
+})
+
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
 directionalLight.position.set(- 5, 25, - 1);
@@ -46,7 +73,7 @@ scene.add(directionalLight);
 
 const container = document.getElementById('canvas');
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.shadowMap.enabled = true;
@@ -76,10 +103,12 @@ let mouseTime = 0;
 
 const keyStates = {};
 
+const powerUpTemp1 = new Temporizador(5)
 let levelTimer = new Temporizador(0);
 let setupTargetTimer = new Temporizador(0);
 let startRoundTimer = new Temporizador(0);
 let nextTargetTimer = new Temporizador(0);
+let Easy = true
 let vel = 3
 let Round_index = 0
 let TargetRound_index = 0
@@ -143,7 +172,7 @@ container.addEventListener('mousedown', () => {
 
 });
 
-document.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', (event) => {
   const actualPlayer = localuser
   if (document.pointerLockElement !== null) {
     if(ShootGun.isPlaying){
@@ -161,6 +190,18 @@ document.addEventListener('mouseup', () => {
     log(Player)
     camera.getWorldDirection(playerDirection);
     Player.shoot({ playerCollider, playerDirection, playerVelocity, mouseTime })
+
+    // var mouse = new THREE.Vector2();
+    // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // var raycaster = new THREE.Raycaster();
+    // raycaster.setFromCamera(mouse, camera);
+
+    // var intersects = raycaster.intersectObjects([collisionBox]);
+    // if (intersects.length > 0) {
+    //   // billboard.userData.onClick();
+    // }
   }
 });
 
@@ -172,7 +213,6 @@ document.body.addEventListener('mousemove', (event) => {
   }
 
 });
-
 
 
 const loader = new GLTFLoader().setPath('./assets/models/gltf/');
@@ -527,21 +567,22 @@ function targetColisions() {
   })
 }
 
-function teleportPlayerIfOob() {
-  if (camera.position.y <= - 25) {
-    playerCollider.start.set(0, 0.35, 0);
-    playerCollider.end.set(0, 1, 0);
-    playerCollider.radius = 0.35;
-    camera.position.copy(playerCollider.end);
-    camera.rotation.set(0, 0, 0);
-  }
-}
+// function teleportPlayerIfOob() {
+//   if (camera.position.y <= - 25) {
+//     playerCollider.start.set(0, 0.35, 0);
+//     playerCollider.end.set(0, 1, 0);
+//     playerCollider.radius = 0.35;
+//     camera.position.copy(playerCollider.end);
+//     camera.rotation.set(0, 0, 0);
+//   }
+// }
 
 function updateTimers(deltaTime) {
   setupTargetTimer.updateTimer(deltaTime)
   startRoundTimer.updateTimer(deltaTime)
   nextTargetTimer.updateTimer(deltaTime)
   levelTimer.updateTimer(deltaTime)
+  powerUpTemp1.updateTimer(deltaTime)
   document.getElementById("levelTime").innerText = levelTimer.leftTime.toFixed(2)
 }
 
@@ -556,6 +597,7 @@ document.getElementById("btn-start-easy").addEventListener("click", () => {
 })
 
 document.getElementById("btn-start-hard").addEventListener("click", () => {
+  Easy = false
   vel = 5
   levelTimer = new Temporizador(20);
   setupTargetTimer = new Temporizador(1);
@@ -606,6 +648,37 @@ loader.load('Scene01.glb', async (gltf) => {
 
 });
 
+
+function updateBill(){
+  if (checkBillColision(bill1)){
+    powerUpTemp1.start()
+    vel = Easy ? 1 : 3
+    setupTargetTimer.leftTime = Easy ? 5 : 3
+    startRoundTimer.leftTime = Easy ? 5 : 3
+    nextTargetTimer.leftTime = Easy ? 0.75 : 0.5
+  }
+  if(powerUpTemp1.timeEnded){
+    vel = Easy ? 3 : 5
+    setupTargetTimer.leftTime = Easy ? 3 : 1
+    startRoundTimer.leftTime = Easy ? 3 : 1
+    nextTargetTimer.leftTime = Easy ? 0.5 : 0.25
+    powerUpTemp1.stop()
+  }
+  checkBillColision(bill2)
+  checkBillColision(bill3)
+  bill1.lookAt(camera.position)
+  bill2.lookAt(camera.position)
+  bill3.lookAt(camera.position)
+}
+
+function checkBillColision(bill){
+  if (playerCollider.intersectsBox(bill.userData.BB)){
+    scene.remove(bill, bill.userData.collisionBox)
+    return true
+  }
+  return false
+}
+
 function animate() {
   // if (levelTimer.timePause) requestAnimationFrame(animate);
   if (levelTimer.startTimer) {
@@ -624,31 +697,27 @@ function animate() {
     return
   }
 
-  
+
   const deltaTime = Math.min(0.05, clock.getDelta()) / STEPS_PER_FRAME;
 
   // we look for collisions in substeps to mitigate the risk of
   // an object traversing another too quickly for detection.
   for (let i = 0; i < STEPS_PER_FRAME; i++) {
-    if(!levelTimer.timePause)
-    {
+    if (!levelTimer.timePause) {
       controls(deltaTime);
-  
+
       updatePlayer(deltaTime);
       updateTimers(deltaTime)
-  
+
       updateStaticTargets(deltaTime)
       updateMovableTargets(deltaTime)
       targetColisions()
-  
+      updateBill()
+
       Players.forEach(playerBullets => playerBullets.updateBullet(deltaTime, worldOctree, GRAVITY))
-  
     }
   }
-
   renderer.render(scene, camera);
-
-
   requestAnimationFrame(animate);
-
 }
+

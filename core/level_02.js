@@ -13,37 +13,14 @@ import Temporizador from './Temporizador.js'
 import createBillboard from './Billboards.js';
 import { writePlayerScore } from './FireBaseSetup.js';
 
-// import { login, writeUserData, createNewGame, joinGame } from './FireBaseSetup.js';
-// import { players_data, game_data } from './FireBaseSetup.js';
 
-// window.fbAsyncInit = function () {
-  FB.init({
-    appId: '209813934736950',
-    autoLogAppEvents: true,
-    xfbml: true,
-    version: 'v17.0'
-  });
+FB.init({
+  appId: '209813934736950',
+  autoLogAppEvents: true,
+  xfbml: true,
+  version: 'v17.0'
+});
 
-
-  // FB.api(
-  //   "/101423766308296/feed",
-  //   "POST",
-  //   {
-  //     message: 'hola esta es una prueba de Rulo',
-  //     access_token:
-  //       "EAACZB0x0MhjYBACsWIsbKjvrr7gIS1EomdeyUiy1MJ9tGmBYS0o4vQjWtUCQEyB6CTwdhOV77zAyXJN7KIDeQZBwjBuZBGiZBoVhGYEVfJsbqKZCkQaAVHTqvIw1uS6pXUZBYR2B5bud0I7UCymAdBj23VNSNAcbqKXLbgasfIXf9kaHfdsLIlSlDRVzbncvAoNA2jKfS4v47nft179DpP"
-  //   },
-  //   function (response) {
-  //     if (response && !response.error) {
-  //       console.log(response);
-  //     }
-  //     else {
-  //       console.log("error", response.error);
-
-  //     }
-  //   }
-  // );
-// };
 
 function publicar(score, jugador, modo) {
   FB.api(
@@ -88,21 +65,22 @@ const bill1 = createBillboard({
   path: "../assets/billboards/clock1.png",
   width: 1,
   height: 1,
-  position: new THREE.Vector3(-5, 1, 10),
+  position: new THREE.Vector3(-2, 1, 10),
   onCreate: addBillToScene
 })
 const bill2 = createBillboard({
   path: "../assets/billboards/clock2.png",
   width: 1,
   height: 1,
-  position: new THREE.Vector3(-5, 1, 8),
+  position: new THREE.Vector3(-2, 1, 8),
   onCreate: addBillToScene
 })
 const bill3 = createBillboard({
   path: "../assets/billboards/clock3.png",
   width: 1,
   height: 1,
-  position: new THREE.Vector3(-5, 1, 6),
+  position: new THREE.Vector3(-2, 1, 6),
+  position: new THREE.Vector3(-2, 1, 6),
   onCreate: addBillToScene
 })
 
@@ -252,21 +230,24 @@ const loader = new GLTFLoader().setPath('./assets/models/gltf/');
 let static_spawn_positions = [];
 let movable_spawn_positions = [];
 
-loader.load('spawn_points_lvl1.glb', (gltf) => {
+loader.load('spawn_points_lvl2.glb', (gltf) => {
   console.log(gltf.scene)
   gltf.scene.children.forEach((el, index) => {
     const ismovable = /\w*spawnMovable/.test(el.name)
+    console.log(ismovable)
+    console.log(el.name)
     if (ismovable) movable_spawn_positions.push(el)
     else static_spawn_positions.push(el)
   })
-  // console.log(static_spawn_positions)
+  console.log(static_spawn_positions)
+  console.log(movable_spawn_positions)
 })
 
 let staticTargets = [];
 let movableTargets = [];
 
 const NUM_OF_ROUNDS = 5
-const TARGETS_PER_ROUND = 3
+const TARGETS_PER_ROUND = 2
 
 loader.load('target.glb', (gltf) => {
   static_spawn_positions.forEach((el, index) => {
@@ -288,7 +269,7 @@ loader.load('target.glb', (gltf) => {
         const newTarget = new MovableTarget({
           positions: el.position,
           TargetMesh: gltf.scene.children[0].clone(),
-          MeshName: `movtarget_0${index}`,
+          MeshName: `movtarget_${n}_${i}_${index}`,
           rotation: "default",
           direction: "-z",
           index: i,
@@ -303,7 +284,7 @@ loader.load('target.glb', (gltf) => {
     }
   })
   // console.log(staticTargets)
-  // console.log(movableTargets)
+  console.log(movableTargets)
 })
 
 let carabine
@@ -495,14 +476,14 @@ function updateStaticTargets(deltaTime) {
 
 function updateMovableTargets(deltaTime) {
   if (startRoundTimer.timeEnded) {
-    if (NUM_OF_ROUNDS == Round_index) {
+    if (NUM_OF_ROUNDS * 2 == Round_index) {
       startRoundTimer.stop()
       nextTargetTimer.stop()
     }
     if (!nextTargetTimer.startTimer) nextTargetTimer.start()
     if (nextTargetTimer.timeEnded) {
       console.log(`target: ${TargetRound_index} of round: ${Round_index}`)
-      if (TargetRound_index == 3) {
+      if (TargetRound_index == 2) {
         console.log("end of round")
         Round_index += 1
         TargetRound_index = 0
@@ -605,10 +586,11 @@ function updateTimers(deltaTime) {
 }
 
 document.getElementById("btn-start-easy").addEventListener("click", () => {
+  vel = 4.5
   levelTimer = new Temporizador(30);
-  setupTargetTimer = new Temporizador(1.5);
-  startRoundTimer = new Temporizador(3);
-  nextTargetTimer = new Temporizador(0.5);
+  setupTargetTimer = new Temporizador(0.5);
+  startRoundTimer = new Temporizador(1.5);
+  nextTargetTimer = new Temporizador(0.25);
   levelTimer.start()
   document.getElementById("modal").classList.toggle("hideElement")
   document.body.requestPointerLock();
@@ -616,10 +598,10 @@ document.getElementById("btn-start-easy").addEventListener("click", () => {
 
 document.getElementById("btn-start-hard").addEventListener("click", () => {
   Easy = false
-  vel = 5
+  vel = 6
   levelTimer = new Temporizador(20);
   setupTargetTimer = new Temporizador(1);
-  startRoundTimer = new Temporizador(1);
+  startRoundTimer = new Temporizador(0.75);
   nextTargetTimer = new Temporizador(0.25);
   levelTimer.start()
   document.getElementById("modal").classList.toggle("hideElement")
@@ -647,7 +629,7 @@ document.getElementById("btn-send").addEventListener("click", () => {
   setTimeout(() => window.location.reload(), 1000)
 })
 
-loader.load('Scene01.glb', async (gltf) => {
+loader.load('Scene02.glb', async (gltf) => {
 
   log("creando jugador...")
   let newplayer = carabine.clone()
